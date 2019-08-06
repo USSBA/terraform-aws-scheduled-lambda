@@ -23,7 +23,7 @@ A simple module to package and deploy lambda functions and have them trigger the
 ### Example
 ```
 module "my-bash-cron" {
-  source = "ussba/terraform-aws-scheduled-lambda"
+  source = "USSBA/scheduled-lambda/aws"
   name = "${terraform.workspace}-my-bash"
   source_directory = "./lambdas/my-bash-script"
   schedule_expression = "rate(10 minutes)"
