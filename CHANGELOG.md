@@ -1,3 +1,7 @@
+# v2.0.0
+## Version Upgrade
+- Support for Terrafrom v0.13
+
 # v1.0.2
 
 ## CHANGE
