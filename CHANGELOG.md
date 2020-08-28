@@ -1,3 +1,6 @@
+# v2.0.1
+- Bump aws provider to include 3.*
+
 # v2.0.0
 ## Version Upgrade
 - Support for Terrafrom v0.13
