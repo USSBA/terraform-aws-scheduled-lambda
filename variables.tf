@@ -1,7 +1,3 @@
-variable "enabled" {
-  default     = true
-  description = "Set to false to disable all resources in this module.  A workaround for terraform<=0.12 having no mechanism for disabling modules between workspaces."
-}
 variable "name" {
   type        = string
   description = "Used for lambda function name, role prefix, etc"
