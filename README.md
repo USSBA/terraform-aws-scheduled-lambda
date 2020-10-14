@@ -1,4 +1,5 @@
 # terraform-aws-scheduled-lambda
+
 A simple module to package and deploy lambda functions and have them trigger them on a schedule.
 
 ## Usage
@@ -6,53 +7,59 @@ A simple module to package and deploy lambda functions and have them trigger the
 ### Variables
 
 #### Required
-* `source_directory` - Path to your lambda source directory, either absolute or relative to where you run `terraform apply`.  _Everything_ in this directory will be packaged and deployed into your lambda.
-* `name`  - Used for lambda function name, role prefix, etc
-* `lambda_iam_policy` - Lambda Parameter - IAM Policy, json-encoded
-* `lambda_runtime` - Lambda Parameter - Runtime.  E.x. python3.6
-* `lambda_handler` - Lambda Parameter - Handler reference, e.x. index.lambda_handler
 
+* `source_directory` - Path to your Lambda source directory, either absolute or relative to where you run `terraform apply`.  _Everything_ in this directory will be packaged and deployed into your lambda.
+* `name`  - Used for lambda function name, role prefix, etc
+* `lambda_iam_policy` - IAM Policy for the lambda, json-encoded
+* `lambda_runtime` - The [runtime](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html) (or language) the Lambda uses, e.g. python3.8
+* `lambda_handler` - The Lambda handler (the function used in your code), e.g. index.lambda_handler
 
 #### Optional
-* `schedule_expression` - Default: `rate(1 day)`; AWS Schedule Expression: https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html
-* `lambda_variables` - Default: empty; Environment variables to pass to Lambda Function
+
+* `schedule_expression` - Default: `rate(1 day)`; [AWS Schedule Expression](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html)
+* `lambda_variables` - Default: `{}`; Environment variables to pass to Lambda Function
 * `lambda_timeout` - Default: 3; Number of seconds for the lambda to execute before the process is killed
-* `lambda_layers` - Lambda Parameter - Used for custom runtime layers: https://docs.aws.amazon.com/lambda/latest/dg/runtimes-custom.html
-* `enabled` - Default `true`; An optional way to disable the entire module.  This works around terraform being unable to `count = 0` for a module, and is helpful for turning off a modules resources per terraform workspace
+* `lambda_layers` - Default: `[]`; Only required if `lambda_runtime` is set to `provided` or `provided.al2`. See [custom runtime layers](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-custom.html) for more info
 
 ### Example
+
+Example of a node lambda:
+
+```terraform
+data "aws_iam_policy_document" "my_lambda_policy" {
+  # IAM policy document defined here
+}
+
+module "my-node-lambda" {
+  source            = "USSBA/scheduled-lambda/aws"
+  version           = "~> 2.0"
+  name              = "my-node-lambda"
+  source_directory  = "./lambdas/my-node-script"
+  lambda_runtime    = "nodejs12.x"
+  lambda_handler    = "index.handler"
+  lambda_iam_policy = data.aws_iam_policy_document.my_lambda_policy
+}
 ```
-module "my-bash-cron" {
-  source = "USSBA/scheduled-lambda/aws"
-  name = "${terraform.workspace}-my-bash"
-  source_directory = "./lambdas/my-bash-script"
-  schedule_expression = "rate(10 minutes)"
-  lambda_timeout = 30 #seconds
-  lambda_runtime = "provided"
-  lambda_layers = ["arn:aws:lambda:${module.global.region}:744348701589:layer:bash:8"]
-  lambda_handler = "index.handler"
+
+Example of bash lambda:
+
+```terraform
+data "aws_iam_policy_document" "my_lambda_policy" {
+  # IAM policy document defined here
+}
+
+module "my-bash-lambda" {
+  source            = "USSBA/scheduled-lambda/aws"
+  version           = "~> 2.0"
+  name              = "my-bash-lambda"
+  source_directory  = "./lambdas/my-bash-script"
+  lambda_runtime    = "provided"
+  lambda_layers     = ["arn:aws:lambda:us-east-1:744348701589:layer:bash:8"]
+  lambda_handler    = "index.handler"
+  lambda_iam_policy = data.aws_iam_policy_document.my_lambda_policy
   lambda_variables = {
-    ENVIRONMENT_WORKSPACE = terraform.workspace
+    ENVIRONMENT = "prod"
   }
-  lambda_iam_policy = jsonencode(
-    {
-      Version = "2012-10-17"
-      Statement = [
-        {
-          Sid = "AllowSsmCommand"
-          Effect = "Allow"
-          Action = [
-            "ssm:SendCommand",
-            "ssm:GetCommandInvocation",
-            "ssm:DescribeInstanceInformation",
-          ]
-          Resource = [
-            "*"
-          ]
-        }
-      ]
-    }
-  )
 }
 ```
 
@@ -61,10 +68,14 @@ module "my-bash-cron" {
 We welcome contributions.
 To contribute please read our [CONTRIBUTING](CONTRIBUTING.md) document.
 
-<sub>All contributions are subject to the license and in no way imply compensation for contributions.</sub>
+All contributions are subject to the license and in no way imply compensation for contributions.
 
+### Terraform 0.12
+
+Our code base now exists in Terraform 0.13 and we are halting new features in the Terraform 0.12 major version.  If you wish to make a PR or merge upstream changes back into 0.12, please submit a PR to the `terraform-0.12` branch.
 
 ## Code of Conduct
+
 We strive for a welcoming and inclusive environment for all SBA projects.
 
 Please follow this guidelines in all interactions:
@@ -77,5 +88,3 @@ Please follow this guidelines in all interactions:
 Please do not submit an issue on GitHub for a security vulnerability.
 Instead, contact the development team through [HQVulnerabilityManagement](mailto:HQVulnerabilityManagement@sba.gov).
 Be sure to include **all** pertinent information.
-
-<sub>The agency reserves the right to change this policy at any time.</sub>
