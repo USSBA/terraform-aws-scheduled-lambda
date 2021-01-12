@@ -15,7 +15,7 @@ variable "lambda_iam_policy" {
   description = "Lambda Parameter - IAM Policy, json-encoded"
 }
 variable "lambda_variables" {
-  type        = map
+  type        = map(any)
   default     = {}
   description = "Lambda Parameter - Environment Variables sent to function"
 }
@@ -29,7 +29,7 @@ variable "lambda_runtime" {
   description = "Lambda Parameter - Runtime.  E.x. python3.6"
 }
 variable "lambda_layers" {
-  type        = list
+  type        = list(any)
   default     = []
   description = "Lambda Parameter - Used for custom runtime layers"
 }

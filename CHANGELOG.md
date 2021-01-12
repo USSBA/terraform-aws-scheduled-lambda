@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.1.0
+
+* Support for Terraform versions 0.13 and above to (but not including) 1.0
+
 ## v2.0.1
 
 * Updated documentation for clarity and ease of use, added code validation to CircleCI config, pre-commit config, and updated license
