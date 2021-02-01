@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.1.0
+
+* change: Adding tag variables
+* bugfix: Fixing bug when no environment variables passed in
+
 ## v2.0.1
 
 * Updated documentation for clarity and ease of use, added code validation to CircleCI config, pre-commit config, and updated license
