@@ -20,6 +20,8 @@ A simple module to package and deploy lambda functions and have them trigger the
 * `lambda_variables` - Default: `{}`; Environment variables to pass to Lambda Function
 * `lambda_timeout` - Default: 3; Number of seconds for the lambda to execute before the process is killed
 * `lambda_layers` - Default: `[]`; Only required if `lambda_runtime` is set to `provided` or `provided.al2`. See [custom runtime layers](https://docs.aws.amazon.com/lambda/latest/dg/runtimes-custom.html) for more info
+* `tags` - Default: `{}`; Add these tags to all tagable resources
+* `tags_lambda` - Default: `{}`; Add these tags to the lambda function
 
 ### Example
 

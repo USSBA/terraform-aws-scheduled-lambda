@@ -17,6 +17,7 @@ resource "aws_iam_role" "lambdaRole" {
   name_prefix        = var.name
   assume_role_policy = data.aws_iam_policy_document.lambdaAssumeRole.json
   description        = "A Lambda execution role for the ${var.name} function"
+  tags               = var.tags
 }
 resource "aws_iam_role_policy" "lambdaRolePolicy" {
   name_prefix = var.name
@@ -36,8 +37,13 @@ resource "aws_lambda_function" "function" {
   layers           = var.lambda_layers
   source_code_hash = data.archive_file.package.output_base64sha256
   timeout          = var.lambda_timeout
-  environment {
-    variables = var.lambda_variables
+  dynamic "environment" {
+    for_each = length(keys(var.lambda_variables)) > 0 ? ["Only create when not empty"] : []
+    content {
+      variables = var.lambda_variables
+    }
   }
   depends_on = [data.archive_file.package]
+
+  tags = merge(var.tags, var.tags_lambda)
 }
