@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.0.0
+
+* change: Added configurable retry attempts variable to control what happens when an invocation error occurs
+
 ## v2.1.0
 
 * change: Adding tag variables
