@@ -47,3 +47,8 @@ resource "aws_lambda_function" "function" {
 
   tags = merge(var.tags, var.tags_lambda)
 }
+resource "aws_lambda_function_event_invoke_config" "invoke_config" {
+  function_name                = aws_lambda_function.function.function_name
+  maximum_event_age_in_seconds = 21600
+  maximum_retry_attempts       = var.maximum_retry_attempts
+}

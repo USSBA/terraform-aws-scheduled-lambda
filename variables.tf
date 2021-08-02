@@ -37,6 +37,11 @@ variable "lambda_handler" {
   type        = string
   description = "Lambda Parameter - Handler reference, e.x. index.lambda_handler"
 }
+variable "maximum_retry_attempts" {
+  type        = number
+  description = "Maximum number of retry attempts if an error occurs during invocation.  Default is 0."
+  default     = 0
+}
 
 variable "tags" {
   type        = map(any)
