@@ -53,3 +53,8 @@ variable "tags_lambda" {
   description = "Tags to be applied only to the lambda function.  Default is {}"
   default     = {}
 }
+variable "builds_dir" {
+  type        = string
+  description = "The directory where the lambda zip should be built"
+  default     = "builds"
+}
