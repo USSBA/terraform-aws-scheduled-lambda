@@ -1,5 +1,11 @@
 # Changelog
 
+## v5.0.0
+* **BREAKING CHANGES**
+  * Terraform version has been bumped to `~> 1.0`
+  * Terraform provider has been bumped to `~> 4.0`
+  * The Lambda module that is sourced `terraform-aws-modules/lambda/aws` has been bumped from `2.0` to `4.0`
+
 ## v4.0.0
 
 This module has swapped to use the well-supported, semi-official "terraform-aws-lambda" module, so all resources will be recreated.
