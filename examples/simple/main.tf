@@ -30,3 +30,7 @@ module "my_node_lambda" {
     function = "lambda"
   }
 }
+
+provider "aws" {
+  region = "us-east-1"
+}
