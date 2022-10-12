@@ -14,8 +14,6 @@ data "aws_iam_policy_document" "lambda_permissions" {
 }
 module "my_node_lambda" {
   source = "../.."
-  #source            = "USSBA/scheduled-lambda/aws"
-  #version           = "~> 2.1"
 
   name                = "scheduled-lambda-example-simple"
   source_directory    = "./script_src/"
@@ -29,4 +27,8 @@ module "my_node_lambda" {
   tags_lambda = {
     function = "lambda"
   }
+}
+
+provider "aws" {
+  region = "us-east-1"
 }
