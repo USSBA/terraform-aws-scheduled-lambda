@@ -1,3 +1,7 @@
+# DISCLAIMER
+
+**THE USSBA WILL BE DEPRECATING THIS MODULE IN THE NEXT 6 MONTHS AND WILL NO LONGER BE MAKING UPDATES TO THIS MODULE.**
+
 # terraform-aws-scheduled-lambda
 
 A simple module to package and deploy lambda functions and have them trigger them on a schedule.
